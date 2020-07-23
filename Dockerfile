@@ -24,9 +24,7 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # hadolint ignore=DL3008
-RUN curl -fsSL https://www.mongodb.org/static/pgp/server-4.2.asc | apt-key add - && \
-    echo "deb https://repo.mongodb.org/apt/debian buster/mongodb-org/4.2 main" | tee /etc/apt/sources.list.d/mongodb-org-4.2.list && \
-    apt-get update && \
+RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     gettext-base \
     libffi-dev \
@@ -37,8 +35,7 @@ RUN curl -fsSL https://www.mongodb.org/static/pgp/server-4.2.asc | apt-key add -
     postgresql-client \
     python3-dev \
     supervisor \
-    wget \
-    mongodb-org-shell && \
+    wget && \
     apt-get -y clean && \
     apt-get -y autoremove && \
     rm -rf /var/lib/apt/lists/*
@@ -56,6 +53,7 @@ COPY install-plugins.sh /app/install-plugins.sh
 COPY plugins.txt /app/plugins.txt
 RUN /app/install-plugins.sh
 
+COPY config/alertad.conf /app/alertad.conf
 ENV ALERTA_SVR_CONF_FILE /app/alertad.conf
 ENV ALERTA_CONF_FILE /app/alerta.conf
 
