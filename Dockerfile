@@ -60,7 +60,7 @@ ENV ALERTA_CONF_FILE /app/alerta.conf
 ADD https://github.com/alerta/alerta-webui/releases/download/v${WEBUI_VERSION}/alerta-webui.tar.gz /tmp/webui.tar.gz
 RUN tar zxvf /tmp/webui.tar.gz -C /tmp && \
     mv /tmp/dist /web
-COPY config.json /web/config.json
+COPY config/config.json /web/config.json
 
 COPY wsgi.py /app/wsgi.py
 COPY uwsgi.ini /app/uwsgi.ini
